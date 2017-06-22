@@ -64,7 +64,7 @@ public class Timer extends Observable {
         hours = Integer.parseInt(hourFormat.format(calendar.getTime()));
         minutes = Integer.parseInt(minuteFormat.format(calendar.getTime()));
         seconds = Integer.parseInt(secondFormat.format(calendar.getTime()));
-        LOGGER.debug(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+        LOGGER.debug(String.format("Set the current time to: %02d:%02d:%02d", hours, minutes, seconds));
         setChanged();
         notifyObservers();
     }
