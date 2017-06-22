@@ -1,2 +1,2 @@
-#ThibTimer
+##ThibTimer
 A simple multifunctional timer application.
