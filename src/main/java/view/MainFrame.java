@@ -8,10 +8,8 @@ package view;
 
 import constants.StringConstants;
 import constants.ViewConstants;
-import model.LanguageManager;
+import model.*;
 import model.Timer;
-import model.TimerStateChrono;
-import model.TimerStateTimer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +29,12 @@ public class MainFrame extends JFrame implements Observer {
 
     private LanguageManager languageManager = LanguageManager.getInstance();
 
-    private JPanel pnlDisplay, pnlTime, pnlSetTime, pnlButtons;
+    private JPanel pnlDisplay;
+    private JPanel pnlControl;
+    private JPanel pnlTime;
+    private JPanel pnlSetTime;
+    private JPanel pnlButtons;
+    private JPanel pnlRadioButtons;
     private JTextField tfTimer;
     private JSpinner spHours, spMinutes, spSeconds;
     private JButton btnSet, btnStart, btnStop, btnReset;
@@ -40,7 +43,6 @@ public class MainFrame extends JFrame implements Observer {
 
     public MainFrame() throws HeadlessException {
         super(StringConstants.APP_TITLE);
-        this.setJMenuBar(MenuBar.getInstance());
         createDisplayPanel();
         createControlPanel();
         addListeners();
@@ -48,12 +50,11 @@ public class MainFrame extends JFrame implements Observer {
     }
 
     private void createDisplayPanel() {
+        setJMenuBar(new MenuBar(this));
         pnlTime = new JPanel(ViewConstants.TIME_PANEL_LAYOUT);
         Font font = ViewConstants.TIMER_FONT;
         tfTimer = new JTextField(timer.toString());
         tfTimer.setFont(font);
-        tfTimer.setBackground(ViewConstants.TIMER_BG_COLOR);
-        tfTimer.setForeground(ViewConstants.TIMER_FG_COLOR);
         tfTimer.setEditable(false);
         tfTimer.setBorder(ViewConstants.TIMER_HIDDEN_BORDER);
 
@@ -61,14 +62,11 @@ public class MainFrame extends JFrame implements Observer {
         spHours = new JSpinner(ViewConstants.HOUR_MODEL);
         spHours.setValue(0);
         spHours.setFont(font);
-        spHours.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR);
         spMinutes = new JSpinner(ViewConstants.MINUTE_MODEL);
         spMinutes.setValue(0);
         spMinutes.setFont(font);
-        spMinutes.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR);
         spSeconds = new JSpinner(ViewConstants.SECOND_MODEL);
         spSeconds.setFont(font);
-        spSeconds.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR);
         spSeconds.setValue(0);
         pnlSetTime.setVisible(false);
 
@@ -88,7 +86,6 @@ public class MainFrame extends JFrame implements Observer {
         pnlTime.setVisible(true);
 
         pnlDisplay = new JPanel();
-        pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR);
         pnlDisplay.add(pnlSetTime);
         pnlDisplay.add(pnlTime);
 
@@ -107,11 +104,10 @@ public class MainFrame extends JFrame implements Observer {
         rbChrono.setSelected(false);
         rbWatch.setSelected(true);
 
-        JPanel pnlRadioButtons = new JPanel(ViewConstants.RADIO_BUTTONS_PANEL_LAYOUT);
+        pnlRadioButtons = new JPanel(ViewConstants.RADIO_BUTTONS_PANEL_LAYOUT);
         pnlRadioButtons.add(rbTimer);
         pnlRadioButtons.add(rbChrono);
         pnlRadioButtons.add(rbWatch);
-        pnlRadioButtons.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR);
 
         pnlButtons = new JPanel(ViewConstants.BUTTONS_PANEL_LAYOUT);
         btnSet = new JButton(languageManager.getString(StringConstants.SET));
@@ -128,11 +124,11 @@ public class MainFrame extends JFrame implements Observer {
         pnlButtons.add(btnStop);
         pnlButtons.add(btnReset);
         pnlButtons.add(pnlRadioButtons);
-        pnlButtons.setBackground(ViewConstants.BUTTONS_PANEL_BG_COLOR);
 
-        JPanel pnlControl = new JPanel();
+        pnlControl = new JPanel();
         pnlControl.add(pnlButtons);
-        pnlControl.setBackground(ViewConstants.CONTOL_PANEL_BG_COLOR);
+
+        setTheme(Theme.LIGHT);
 
         add(pnlControl, BorderLayout.SOUTH);
     }
@@ -193,7 +189,6 @@ public class MainFrame extends JFrame implements Observer {
         });
         rbWatch.addActionListener(e -> {
             timer.stop();
-            //timer.setTimeable(new TimerStateWatch());
             btnSet.setEnabled(false);
             btnStart.setEnabled(false);
             btnStop.setEnabled(false);
@@ -211,6 +206,8 @@ public class MainFrame extends JFrame implements Observer {
         pack();
         setLocationRelativeTo(null);
         setResizable(false);
+
+        ((Graphics2D) tfTimer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         btnStart.requestFocus();
     }
@@ -234,6 +231,33 @@ public class MainFrame extends JFrame implements Observer {
             rbWatch.setText(languageMGR.getString(StringConstants.WATCH));
         }
         pack();
+    }
+
+    public void setTheme(Theme theme) {
+        switch (theme) {
+            case DARK:
+                pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR_DARK);
+                pnlRadioButtons.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_DARK);
+                tfTimer.setBackground(ViewConstants.TIMER_BG_COLOR_THEME_DARK);
+                tfTimer.setForeground(ViewConstants.TIMER_FG_COLOR_THEME_DARK);
+                spHours.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_DARK);
+                spMinutes.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_DARK);
+                spSeconds.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_DARK);
+                pnlControl.setBackground(ViewConstants.CONTROL_PANEL_BG_COLOR_THEME_DARK);
+                pnlButtons.setBackground(ViewConstants.BUTTONS_PANEL_BG_COLOR_THEME_DARK);
+                break;
+            case LIGHT:
+                pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR_LIGHT);
+                pnlRadioButtons.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_LIGHT);
+                tfTimer.setBackground(ViewConstants.TIMER_BG_COLOR_THEME_LIGHT);
+                tfTimer.setForeground(ViewConstants.TIMER_FG_COLOR_THEME_LIGHT);
+                spHours.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_LIGHT);
+                spMinutes.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_LIGHT);
+                spSeconds.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_LIGHT);
+                pnlControl.setBackground(ViewConstants.CONTROL_PANEL_BG_COLOR_THEME_LIGHT);
+                pnlButtons.setBackground(ViewConstants.BUTTONS_PANEL_BG_COLOR_THEME_LIGHT);
+                break;
+        }
     }
 
     private class TimerActionListener implements ActionListener {

@@ -8,6 +8,7 @@ package view;
 
 import constants.StringConstants;
 import model.LanguageManager;
+import model.Theme;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,21 +25,25 @@ import java.util.Observer;
 
 public class MenuBar extends JMenuBar implements Observer {
 
-    private static MenuBar menuBar = new MenuBar();
+    private final MainFrame mainFrame;
     private LanguageManager languageManager = LanguageManager.getInstance();
 
-    //TODO: add menu items for themes and sounds
-    private JMenu mnPreferences, mnLanguage, mnTheme, mnSound;
-    private JMenuItem miAbout, miEnglish, miDutch;
+    //TODO: add menu items for sounds
+    private JMenu mnPreferences;
+    private JMenu mnLanguage;
+    private JMenuItem miAbout;
+    private JMenuItem miEnglish;
+    private JMenuItem miDutch;
+    private JMenu mnTheme;
+    private JMenuItem miDark;
+    private JMenuItem miLight;
+    private JMenu mnSound;
 
-    private MenuBar() {
+    public MenuBar(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         initialiseComponents();
         addActionListeners();
         addComponents();
-    }
-
-    public static synchronized MenuBar getInstance() {
-        return menuBar;
     }
 
     private void addComponents() {
@@ -47,7 +52,9 @@ public class MenuBar extends JMenuBar implements Observer {
         mnLanguage.add(miEnglish);
         mnLanguage.add(miDutch);
         mnPreferences.add(mnTheme);
-        mnPreferences.add(mnSound);
+        mnTheme.add(miDark);
+        mnTheme.add(miLight);
+        // mnPreferences.add(mnSound);
         add(mnPreferences);
     }
 
@@ -55,6 +62,8 @@ public class MenuBar extends JMenuBar implements Observer {
         miAbout.addActionListener(e -> new AboutFrame());
         miEnglish.addActionListener(new LanguageListener(StringConstants.EN));
         miDutch.addActionListener(new LanguageListener(StringConstants.NL));
+        miDark.addActionListener(e -> mainFrame.setTheme(Theme.DARK));
+        miLight.addActionListener(e -> mainFrame.setTheme(Theme.LIGHT));
         languageManager.addObserver(this);
     }
 
@@ -64,14 +73,11 @@ public class MenuBar extends JMenuBar implements Observer {
         miEnglish = new JMenuItem(languageManager.getString(StringConstants.ENGLISH));
         miDutch = new JMenuItem(languageManager.getString(StringConstants.DUTCH));
         mnTheme = new JMenu(languageManager.getString(StringConstants.THEME));
+        miDark = new JMenuItem(Theme.DARK.toString());
+        miLight = new JMenuItem(Theme.LIGHT.toString());
         mnSound = new JMenu(languageManager.getString(StringConstants.SOUND));
 
         miAbout = new JMenuItem(languageManager.getString(StringConstants.ABOUT));
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException();
     }
 
     @Override
@@ -82,6 +88,8 @@ public class MenuBar extends JMenuBar implements Observer {
         miEnglish.setText(languageMGR.getString(StringConstants.ENGLISH));
         miDutch.setText(languageMGR.getString(StringConstants.DUTCH));
         mnTheme.setText(languageManager.getString(StringConstants.THEME));
+        miDark.setText(Theme.DARK.toString());
+        miLight.setText(Theme.LIGHT.toString());
         mnSound.setText(languageManager.getString(StringConstants.SOUND));
 
         miAbout.setText(languageMGR.getString(StringConstants.ABOUT));

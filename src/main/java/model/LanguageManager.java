@@ -17,6 +17,7 @@ import java.util.*;
  */
 
 public class LanguageManager extends Observable {
+
     private static LanguageManager languageManager = new LanguageManager();
     private Locale locale;
     private HashMap<String, String> textMap;
@@ -89,10 +90,10 @@ public class LanguageManager extends Observable {
      * This method fetches the requested String from the HashMap with all the Strings.
      *
      * @param stringToGet The requested String (key to find the String in textMap)
-     * @return textMap.get(stringToGet) returns the requested String value
+     * @return the requested String value, or the key if no value was found
      */
     public String getString(String stringToGet) {
-        return textMap.get(stringToGet);
+        return textMap.get(stringToGet) != null ? textMap.get(stringToGet) : stringToGet;
     }
 
     @Override
