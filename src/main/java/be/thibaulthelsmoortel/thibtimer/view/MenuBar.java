@@ -1,23 +1,17 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
+package be.thibaulthelsmoortel.thibtimer.view;
 
-package view;
-
-import constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
+import be.thibaulthelsmoortel.thibtimer.model.Theme;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import model.LanguageManager;
-import model.Theme;
 
 /**
- * This is the class used for the MenuBar in the main view class.
+ * This is the class used for the MenuBar in the main be.thibaulthelsmoortel.thibtimer.view class.
  *
  * @author Thibault Helsmoortel
  */

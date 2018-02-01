@@ -1,17 +1,15 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
+package be.thibaulthelsmoortel.thibtimer.constants;
 
-package constants;
-
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
-import java.awt.*;
 
 /**
- * This class describes constant, unchanging fields used in view classes.
+ * This class describes constant, unchanging fields used in be.thibaulthelsmoortel.thibtimer.view classes.
  *
  * @author Thibault Helsmoortel
  */

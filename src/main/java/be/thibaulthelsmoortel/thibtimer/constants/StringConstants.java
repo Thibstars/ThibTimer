@@ -1,13 +1,7 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
-
-package constants;
+package be.thibaulthelsmoortel.thibtimer.constants;
 
 /**
- * This class describes String constants used in the entire application.
+ * This class describes String be.thibaulthelsmoortel.thibtimer.constants used in the entire application.
  * Some of these are used as keys to fetch the correct String according to the language
  * may not be used directly in the application.
  *
@@ -15,7 +9,7 @@ package constants;
  */
 public final class StringConstants {
 
-    public static final String APP_TITLE = "ThibTimer";
+    public static final String APP_TITLE = "be.thibaulthelsmoortel.thibtimer.ThibTimer";
 
     public static final String ABOUT = "About";
     public static final String ABOUT_SPACE = " - ";

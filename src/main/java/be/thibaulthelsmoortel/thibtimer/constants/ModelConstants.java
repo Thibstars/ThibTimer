@@ -4,13 +4,13 @@
  * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
  */
 
-package constants;
+package be.thibaulthelsmoortel.thibtimer.constants;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * This class describes the constants used in the model of the application.
+ * This class describes the be.thibaulthelsmoortel.thibtimer.constants used in the be.thibaulthelsmoortel.thibtimer.model of the application.
  *
  * @author Thibault Helsmoortel
  */

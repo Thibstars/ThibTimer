@@ -1,13 +1,12 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
+package be.thibaulthelsmoortel.thibtimer.view;
 
-package view;
-
-import constants.StringConstants;
-import constants.ViewConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.ViewConstants;
+import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
+import be.thibaulthelsmoortel.thibtimer.model.Theme;
+import be.thibaulthelsmoortel.thibtimer.model.Timer;
+import be.thibaulthelsmoortel.thibtimer.model.TimerStateChrono;
+import be.thibaulthelsmoortel.thibtimer.model.TimerStateTimer;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -24,14 +23,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import model.LanguageManager;
-import model.Theme;
-import model.Timer;
-import model.TimerStateChrono;
-import model.TimerStateTimer;
 
 /**
- * This is the main view class of the application.
+ * This is the main be.thibaulthelsmoortel.thibtimer.view class of the application.
  *
  * @author Thibault Helsmoortel
  */

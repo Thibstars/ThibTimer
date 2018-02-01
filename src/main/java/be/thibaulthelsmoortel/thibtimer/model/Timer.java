@@ -1,19 +1,13 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
+package be.thibaulthelsmoortel.thibtimer.model;
 
-package model;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.HOUR_FORMAT;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.MINUTE_FORMAT;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.SECONDS_IN_MILLIS;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.SECOND_FORMAT;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_DOUBLE_DIGIT_CHECK;
+import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_ZERO;
 
-import static constants.ModelConstants.HOUR_FORMAT;
-import static constants.ModelConstants.MINUTE_FORMAT;
-import static constants.ModelConstants.SECONDS_IN_MILLIS;
-import static constants.ModelConstants.SECOND_FORMAT;
-import static constants.ModelConstants.TIME_DOUBLE_DIGIT_CHECK;
-import static constants.ModelConstants.TIME_ZERO;
-
-import constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -23,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * A singleton Timer model class that is Observable.
+ * A singleton Timer be.thibaulthelsmoortel.thibtimer.model class that fires events.
  *
  * @author Thibault Helsmoortel
  */

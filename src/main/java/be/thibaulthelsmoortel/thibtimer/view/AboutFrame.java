@@ -1,18 +1,12 @@
-/*
- * Copyright (c) 2017 by Thibault Helsmoortel.
- * This code has been entirely written and is entirely owned by Thibault Helsmoortel.
- * Do not (re)distribute or copy code without written permission of Thibault Helsmoortel.
- */
+package be.thibaulthelsmoortel.thibtimer.view;
 
-package view;
-
-import constants.StringConstants;
-import constants.ViewConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.constants.ViewConstants;
+import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
-import model.LanguageManager;
 
 /**
  * This class contains a screen with details about the application.
