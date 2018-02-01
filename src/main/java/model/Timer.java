@@ -119,7 +119,7 @@ public class Timer extends Observable {
         return hourString;
     }
 
-    private String getMinutString() {
+    private String getMinuteString() {
         String minutString = Integer.toString(this.minutes);
         if (this.minutes < ModelConstants.TIME_DOUBLE_DIGIT_CHECK) return "" + ModelConstants.TIME_ZERO + minutes;
         return minutString;
@@ -182,7 +182,7 @@ public class Timer extends Observable {
 
     @Override
     public String toString() {
-        return getHourString() + StringConstants.TIMER_EXTENDED_DELIMITER + getMinutString() + StringConstants.TIMER_EXTENDED_DELIMITER + getSecondString();
+        return getHourString() + StringConstants.TIMER_EXTENDED_DELIMITER + getMinuteString() + StringConstants.TIMER_EXTENDED_DELIMITER + getSecondString();
     }
 
     /**
