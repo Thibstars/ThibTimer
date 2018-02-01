@@ -11,7 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * This is the class used for the MenuBar in the main be.thibaulthelsmoortel.thibtimer.view class.
+ * This is the class used for the MenuBar in the main view class.
  *
  * @author Thibault Helsmoortel
  */

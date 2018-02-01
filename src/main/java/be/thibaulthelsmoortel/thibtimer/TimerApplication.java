@@ -8,8 +8,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Thibault Helsmoortel
  */
-
-public class ThibTimer {
+public class TimerApplication {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainFrame::new);

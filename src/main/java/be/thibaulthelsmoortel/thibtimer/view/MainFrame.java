@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 /**
- * This is the main be.thibaulthelsmoortel.thibtimer.view class of the application.
+ * This is the main view class of the application.
  *
  * @author Thibault Helsmoortel
  */
@@ -180,14 +180,14 @@ public class MainFrame extends JFrame {
         rbTimer.addActionListener(e -> {
             timer.stop();
             timer.reset();
-            timer.setTimeable(new TimerStateTimer());
+            timer.setTimeChanger(new TimerStateTimer());
             btnSet.setEnabled(true);
             btnStart.setEnabled(false);
         });
         rbChrono.addActionListener(e -> {
             timer.stop();
             timer.reset();
-            timer.setTimeable(new TimerStateChrono());
+            timer.setTimeChanger(new TimerStateChrono());
             btnSet.setEnabled(false);
             btnStart.setEnabled(true);
             btnStop.setEnabled(false);
@@ -280,7 +280,7 @@ public class MainFrame extends JFrame {
                 btnReset.setEnabled(true);
             } else if (e.getSource() == btnReset) {
                 timer.stop();
-                if (timer.getTimeable() instanceof TimerStateTimer)
+                if (timer.getTimeChanger() instanceof TimerStateTimer)
                     timer.setTimerTime((Integer) spHours.getValue(), (Integer) spMinutes.getValue(), (Integer) spSeconds.getValue());
                 else timer.reset();
                 btnStart.setEnabled(true);

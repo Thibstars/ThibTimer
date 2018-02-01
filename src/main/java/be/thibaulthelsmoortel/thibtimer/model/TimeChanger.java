@@ -5,7 +5,7 @@ package be.thibaulthelsmoortel.thibtimer.model;
  *
  * @author Thibault Helsmoortel
  */
-public interface Timeable {
+public interface TimeChanger {
 
     void changeTime(); //Increment or decrement time
 }

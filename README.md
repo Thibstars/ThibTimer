@@ -1,2 +1,2 @@
-# be.thibaulthelsmoortel.thibtimer.ThibTimer #
+# be.thibaulthelsmoortel.thibtimer.TimerApplication #
 A simple multifunctional timer application.

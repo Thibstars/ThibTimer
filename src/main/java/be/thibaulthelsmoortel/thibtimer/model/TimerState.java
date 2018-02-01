@@ -3,11 +3,11 @@ package be.thibaulthelsmoortel.thibtimer.model;
 import be.thibaulthelsmoortel.thibtimer.constants.ModelConstants;
 
 /**
- * Interface providing timer means for {@link Timeable}.
+ * Interface providing timer means for {@link TimeChanger}.
  *
  * @author Thibault Helsmoortel
  */
-public interface TimerState extends Timeable {
+public interface TimerState extends TimeChanger {
 
     default void incrementTime() {
         Timer timer = Timer.getInstance();

@@ -25,8 +25,8 @@ public class Timer {
 
     private static final Logger LOGGER = LogManager.getLogger(Timer.class);
 
-    private static Timer thibTimer = new Timer();
-    private Timeable timeable = new TimerStateWatch();
+    private static Timer timer = new Timer();
+    private TimeChanger timeChanger = new TimerStateWatch();
 
     private javax.swing.Timer swingTimer;
     private int seconds;
@@ -48,10 +48,10 @@ public class Timer {
     }
 
     /**
-     * @return thibTimer, this is the instance that manages all the time features
+     * @return timer, this is the instance that manages all the time features
      */
     public static synchronized Timer getInstance() {
-        return thibTimer;
+        return timer;
     }
 
     /**
@@ -89,7 +89,7 @@ public class Timer {
 
     private void changeTime() {
         javax.swing.Timer oldTimer = swingTimer;
-        timeable.changeTime();
+        timeChanger.changeTime();
         firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
@@ -182,12 +182,12 @@ public class Timer {
         swingTimer.stop();
     }
 
-    public Timeable getTimeable() {
-        return timeable;
+    public TimeChanger getTimeChanger() {
+        return timeChanger;
     }
 
-    public void setTimeable(Timeable timeable) {
-        this.timeable = timeable;
+    public void setTimeChanger(TimeChanger timeChanger) {
+        this.timeChanger = timeChanger;
     }
 
     @Override

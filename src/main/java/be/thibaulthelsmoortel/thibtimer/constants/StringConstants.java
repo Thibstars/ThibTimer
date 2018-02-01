@@ -9,7 +9,7 @@ package be.thibaulthelsmoortel.thibtimer.constants;
  */
 public final class StringConstants {
 
-    public static final String APP_TITLE = "be.thibaulthelsmoortel.thibtimer.ThibTimer";
+    public static final String APP_TITLE = "ThibTimer";
 
     public static final String ABOUT = "About";
     public static final String ABOUT_SPACE = " - ";
