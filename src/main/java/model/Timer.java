@@ -28,13 +28,14 @@ public class Timer extends Observable {
     private static Timer thibTimer = new Timer();
     private Timeable timeable = new TimerStateWatch();
 
-    private Calendar calendar = Calendar.getInstance();
     private DateFormat hourFormat = ModelConstants.HOUR_FORMAT;
     private DateFormat minuteFormat = ModelConstants.MINUTE_FORMAT;
     private DateFormat secondFormat = ModelConstants.SECOND_FORMAT;
 
-    private javax.swing.Timer timer;
-    private int seconds, minutes, hours;
+    private javax.swing.Timer swingTimer;
+    private int seconds;
+    private int minutes;
+    private int hours;
 
     /**
      * Constructor not publicly available, this is a singleton class
@@ -61,6 +62,7 @@ public class Timer extends Observable {
      * This is because the timer is first set to the current time, and afterwards initialised
      */
     public void setTimerToCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
         hours = Integer.parseInt(hourFormat.format(calendar.getTime()));
         minutes = Integer.parseInt(minuteFormat.format(calendar.getTime()));
         seconds = Integer.parseInt(secondFormat.format(calendar.getTime()));
@@ -70,11 +72,11 @@ public class Timer extends Observable {
     }
 
     /**
-     * This method initialises the timer and fires the increment() or decrement() depending on the situation
+     * This method initialises the timer and fires the increment() or decrement() depending on the situation.
      */
     private void initialiseTimer() {
-        timer = new javax.swing.Timer(ModelConstants.SECONDS_IN_MILLIS, e -> changeTime());
-        timer.start();
+        swingTimer = new javax.swing.Timer(ModelConstants.SECONDS_IN_MILLIS, e -> changeTime());
+        swingTimer.start();
     }
 
     private void changeTime() {
@@ -120,9 +122,9 @@ public class Timer extends Observable {
     }
 
     private String getMinuteString() {
-        String minutString = Integer.toString(this.minutes);
+        String minuteString = Integer.toString(this.minutes);
         if (this.minutes < ModelConstants.TIME_DOUBLE_DIGIT_CHECK) return "" + ModelConstants.TIME_ZERO + minutes;
-        return minutString;
+        return minuteString;
     }
 
     private String getSecondString() {
@@ -150,7 +152,7 @@ public class Timer extends Observable {
      * This method stops the timer and sets seconds, minutes and hours to 0
      */
     public void reset() {
-        timer.stop();
+        swingTimer.stop();
         hours = ModelConstants.TIME_ZERO;
         minutes = ModelConstants.TIME_ZERO;
         seconds = ModelConstants.TIME_ZERO;
@@ -162,14 +164,14 @@ public class Timer extends Observable {
      * This method starts the timer
      */
     public void start() {
-        timer.start();
+        swingTimer.start();
     }
 
     /**
      * This method stops the timer
      */
     public void stop() {
-        timer.stop();
+        swingTimer.stop();
     }
 
     public Timeable getTimeable() {
