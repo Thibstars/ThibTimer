@@ -11,7 +11,6 @@ package model;
  *
  * @author Thibault Helsmoortel
  */
-
 public class TimerStateTimer implements TimerState {
 
     @Override

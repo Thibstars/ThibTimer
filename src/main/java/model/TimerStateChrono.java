@@ -11,7 +11,6 @@ package model;
  *
  * @author Thibault Helsmoortel
  */
-
 public class TimerStateChrono implements TimerState {
 
     @Override

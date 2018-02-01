@@ -20,7 +20,6 @@ import java.util.Observer;
  *
  * @author Thibault Helsmoortel
  */
-
 public class AboutFrame extends JDialog implements Observer {
 
     private LanguageManager languageManager = LanguageManager.getInstance();

@@ -13,7 +13,6 @@ package constants;
  *
  * @author Thibault Helsmoortel
  */
-
 public abstract class StringConstants {
 
     public static final String APP_TITLE = "ThibTimer";

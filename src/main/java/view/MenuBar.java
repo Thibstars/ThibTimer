@@ -22,7 +22,6 @@ import java.util.Observer;
  *
  * @author Thibault Helsmoortel
  */
-
 public class MenuBar extends JMenuBar implements Observer {
 
     private final MainFrame mainFrame;

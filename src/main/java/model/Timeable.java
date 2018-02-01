@@ -11,7 +11,6 @@ package model;
  *
  * @author Thibault Helsmoortel
  */
-
 public interface Timeable {
 
     void changeTime(); //Increment or decrement time

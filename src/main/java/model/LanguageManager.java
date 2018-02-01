@@ -15,7 +15,6 @@ import java.util.*;
  *
  * @author Thibault Helsmoortel
  */
-
 public class LanguageManager extends Observable {
 
     private static LanguageManager languageManager = new LanguageManager();

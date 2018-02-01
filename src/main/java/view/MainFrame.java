@@ -23,7 +23,6 @@ import java.util.Observer;
  *
  * @author Thibault Helsmoortel
  */
-
 public class MainFrame extends JFrame implements Observer {
     private static final Timer timer = Timer.getInstance();
 

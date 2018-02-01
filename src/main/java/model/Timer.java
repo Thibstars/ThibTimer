@@ -20,7 +20,6 @@ import java.util.Observable;
  *
  * @author Thibault Helsmoortel
  */
-
 public class Timer extends Observable {
 
     private static final Logger LOGGER = LogManager.getLogger(Timer.class);

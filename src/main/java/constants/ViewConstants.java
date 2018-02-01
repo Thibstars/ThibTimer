@@ -15,7 +15,6 @@ import java.awt.*;
  *
  * @author Thibault Helsmoortel
  */
-
 public abstract class ViewConstants {
     //MAINFRAME
     public static final Font TIMER_FONT = new Font("Helvetica", Font.PLAIN, 60);

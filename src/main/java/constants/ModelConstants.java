@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
  *
  * @author Thibault Helsmoortel
  */
-
 public abstract class ModelConstants {
 
     public static final DateFormat HOUR_FORMAT = new SimpleDateFormat("HH");
