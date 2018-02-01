@@ -17,7 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * A singleton Timer be.thibaulthelsmoortel.thibtimer.model class that fires events.
+ * A singleton Timer model class that fires events.
  *
  * @author Thibault Helsmoortel
  */

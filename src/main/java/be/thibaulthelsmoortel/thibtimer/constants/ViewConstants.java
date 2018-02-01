@@ -9,7 +9,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 
 /**
- * This class describes constant, unchanging fields used in be.thibaulthelsmoortel.thibtimer.view classes.
+ * This class describes constant, unchanging fields used in view classes.
  *
  * @author Thibault Helsmoortel
  */

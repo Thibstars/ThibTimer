@@ -1,7 +1,7 @@
 package be.thibaulthelsmoortel.thibtimer.constants;
 
 /**
- * This class describes String be.thibaulthelsmoortel.thibtimer.constants used in the entire application.
+ * This class describes String constants used in the entire application.
  * Some of these are used as keys to fetch the correct String according to the language
  * may not be used directly in the application.
  *
