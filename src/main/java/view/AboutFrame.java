@@ -8,19 +8,18 @@ package view;
 
 import constants.StringConstants;
 import constants.ViewConstants;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JTextArea;
 import model.LanguageManager;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * This class contains a screen with details about the application.
  *
  * @author Thibault Helsmoortel
  */
-public class AboutFrame extends JDialog implements Observer {
+public class AboutFrame extends JDialog {
 
     private LanguageManager languageManager = LanguageManager.getInstance();
     private JTextArea taAboutText;
@@ -59,13 +58,5 @@ public class AboutFrame extends JDialog implements Observer {
         //taAboutText.setRows(ViewConstants.ABOUT_TEXT_ROW_AMOUNT);
         taAboutText.setEditable(false);
         btnClose = new JButton(languageManager.getString(StringConstants.CLOSE));
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        LanguageManager languageMGR = (LanguageManager) o;
-        this.setTitle(languageMGR.getString(StringConstants.ABOUT) + StringConstants.ABOUT_SPACE + StringConstants.APP_TITLE);
-        taAboutText.setText(languageMGR.getString(StringConstants.ABOUT_TEXT));
-        btnClose.setText(languageMGR.getString(StringConstants.CLOSE));
     }
 }

@@ -6,45 +6,50 @@
 
 package model;
 
-import constants.ModelConstants;
+import static constants.ModelConstants.HOUR_FORMAT;
+import static constants.ModelConstants.MINUTE_FORMAT;
+import static constants.ModelConstants.SECONDS_IN_MILLIS;
+import static constants.ModelConstants.SECOND_FORMAT;
+import static constants.ModelConstants.TIME_DOUBLE_DIGIT_CHECK;
+import static constants.ModelConstants.TIME_ZERO;
+
 import constants.StringConstants;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Observable;
 
 /**
  * A singleton Timer model class that is Observable.
  *
  * @author Thibault Helsmoortel
  */
-public class Timer extends Observable {
+public class Timer {
 
     private static final Logger LOGGER = LogManager.getLogger(Timer.class);
 
     private static Timer thibTimer = new Timer();
     private Timeable timeable = new TimerStateWatch();
 
-    private DateFormat hourFormat = ModelConstants.HOUR_FORMAT;
-    private DateFormat minuteFormat = ModelConstants.MINUTE_FORMAT;
-    private DateFormat secondFormat = ModelConstants.SECOND_FORMAT;
-
     private javax.swing.Timer swingTimer;
     private int seconds;
     private int minutes;
     private int hours;
+
+    private final List<PropertyChangeListener> propertyChangeListeners;
 
     /**
      * Constructor not publicly available, this is a singleton class
      * Creates a timer and initialises it to start from the current system's time
      */
     private Timer() {
-        this.seconds = ModelConstants.TIME_ZERO;
-        this.minutes = ModelConstants.TIME_ZERO;
-        this.hours = ModelConstants.TIME_ZERO;
-        initialiseTimer();
+        this.seconds = TIME_ZERO;
+        this.minutes = TIME_ZERO;
+        this.hours = TIME_ZERO;
+        this.propertyChangeListeners = new ArrayList<>();
         setTimerToCurrentTime();
     }
 
@@ -61,27 +66,37 @@ public class Timer extends Observable {
      * This is because the timer is first set to the current time, and afterwards initialised
      */
     public void setTimerToCurrentTime() {
+        javax.swing.Timer oldTimer = swingTimer;
+        initialiseTimer();
         Calendar calendar = Calendar.getInstance();
-        hours = Integer.parseInt(hourFormat.format(calendar.getTime()));
-        minutes = Integer.parseInt(minuteFormat.format(calendar.getTime()));
-        seconds = Integer.parseInt(secondFormat.format(calendar.getTime()));
+        hours = Integer.parseInt(HOUR_FORMAT.format(calendar.getTime()));
+        minutes = Integer.parseInt(MINUTE_FORMAT.format(calendar.getTime()));
+        seconds = Integer.parseInt(SECOND_FORMAT.format(calendar.getTime()));
         LOGGER.debug(String.format("Set the current time to: %02d:%02d:%02d", hours, minutes, seconds));
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
+    }
+
+    public void addPropertyChangeEventListener(PropertyChangeListener listener) {
+        propertyChangeListeners.add(listener);
+    }
+
+    private void firePropertyChangeEvent(javax.swing.Timer oldTimer, javax.swing.Timer newTimer) {
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "swingTimer", oldTimer, newTimer);
+        propertyChangeListeners.forEach(listener -> listener.propertyChange(event));
     }
 
     /**
      * This method initialises the timer and fires the increment() or decrement() depending on the situation.
      */
     private void initialiseTimer() {
-        swingTimer = new javax.swing.Timer(ModelConstants.SECONDS_IN_MILLIS, e -> changeTime());
+        swingTimer = new javax.swing.Timer(SECONDS_IN_MILLIS, e -> changeTime());
         swingTimer.start();
     }
 
     private void changeTime() {
+        javax.swing.Timer oldTimer = swingTimer;
         timeable.changeTime();
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     public int getSeconds() {
@@ -89,9 +104,9 @@ public class Timer extends Observable {
     }
 
     public void setSeconds(int seconds) {
+        javax.swing.Timer oldTimer = swingTimer;
         this.seconds = seconds;
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     public int getMinutes() {
@@ -99,9 +114,9 @@ public class Timer extends Observable {
     }
 
     public void setMinutes(int minutes) {
+        javax.swing.Timer oldTimer = swingTimer;
         this.minutes = minutes;
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     public int getHours() {
@@ -109,26 +124,26 @@ public class Timer extends Observable {
     }
 
     public void setHours(int hours) {
+        javax.swing.Timer oldTimer = swingTimer;
         this.hours = hours;
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     private String getHourString() {
         String hourString = Integer.toString(this.hours);
-        if (this.hours < ModelConstants.TIME_DOUBLE_DIGIT_CHECK) return "" + ModelConstants.TIME_ZERO + hours;
+        if (this.hours < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + hours;
         return hourString;
     }
 
     private String getMinuteString() {
         String minuteString = Integer.toString(this.minutes);
-        if (this.minutes < ModelConstants.TIME_DOUBLE_DIGIT_CHECK) return "" + ModelConstants.TIME_ZERO + minutes;
+        if (this.minutes < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + minutes;
         return minuteString;
     }
 
     private String getSecondString() {
         String secondString = Integer.toString(this.seconds);
-        if (this.seconds < ModelConstants.TIME_DOUBLE_DIGIT_CHECK) return "" + ModelConstants.TIME_ZERO + seconds;
+        if (this.seconds < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + seconds;
         return secondString;
     }
 
@@ -140,23 +155,23 @@ public class Timer extends Observable {
      * @param secondVal The value to set seconds to
      */
     public void setTimerTime(int hourVal, int minuteVal, int secondVal) {
+        javax.swing.Timer oldTimer = swingTimer;
         hours = hourVal;
         minutes = minuteVal;
         seconds = secondVal;
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     /**
      * This method stops the timer and sets seconds, minutes and hours to 0
      */
     public void reset() {
+        javax.swing.Timer oldTimer = swingTimer;
         swingTimer.stop();
-        hours = ModelConstants.TIME_ZERO;
-        minutes = ModelConstants.TIME_ZERO;
-        seconds = ModelConstants.TIME_ZERO;
-        setChanged();
-        notifyObservers();
+        hours = TIME_ZERO;
+        minutes = TIME_ZERO;
+        seconds = TIME_ZERO;
+        firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
     /**

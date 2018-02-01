@@ -7,22 +7,21 @@
 package view;
 
 import constants.StringConstants;
-import model.LanguageManager;
-import model.Theme;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
-import java.util.Observable;
-import java.util.Observer;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import model.LanguageManager;
+import model.Theme;
 
 /**
  * This is the class used for the MenuBar in the main view class.
  *
  * @author Thibault Helsmoortel
  */
-public class MenuBar extends JMenuBar implements Observer {
+public class MenuBar extends JMenuBar {
 
     private final MainFrame mainFrame;
     private LanguageManager languageManager = LanguageManager.getInstance();
@@ -63,7 +62,18 @@ public class MenuBar extends JMenuBar implements Observer {
         miDutch.addActionListener(new LanguageListener(StringConstants.NL));
         miDark.addActionListener(e -> mainFrame.setTheme(Theme.DARK));
         miLight.addActionListener(e -> mainFrame.setTheme(Theme.LIGHT));
-        languageManager.addObserver(this);
+        languageManager.addPropertyChangeListener(event -> {
+            mnPreferences.setText(languageManager.getString(StringConstants.PREFERENCES));
+            mnLanguage.setText(languageManager.getString(StringConstants.LANGUAGE));
+            miEnglish.setText(languageManager.getString(StringConstants.ENGLISH));
+            miDutch.setText(languageManager.getString(StringConstants.DUTCH));
+            mnTheme.setText(languageManager.getString(StringConstants.THEME));
+            miDark.setText(Theme.DARK.toString());
+            miLight.setText(Theme.LIGHT.toString());
+            mnSound.setText(languageManager.getString(StringConstants.SOUND));
+
+            miAbout.setText(languageManager.getString(StringConstants.ABOUT));
+        });
     }
 
     private void initialiseComponents() {
@@ -77,21 +87,6 @@ public class MenuBar extends JMenuBar implements Observer {
         mnSound = new JMenu(languageManager.getString(StringConstants.SOUND));
 
         miAbout = new JMenuItem(languageManager.getString(StringConstants.ABOUT));
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        LanguageManager languageMGR = (LanguageManager) o;
-        mnPreferences.setText(languageMGR.getString(StringConstants.PREFERENCES));
-        mnLanguage.setText(languageMGR.getString(StringConstants.LANGUAGE));
-        miEnglish.setText(languageMGR.getString(StringConstants.ENGLISH));
-        miDutch.setText(languageMGR.getString(StringConstants.DUTCH));
-        mnTheme.setText(languageManager.getString(StringConstants.THEME));
-        miDark.setText(Theme.DARK.toString());
-        miLight.setText(Theme.LIGHT.toString());
-        mnSound.setText(languageManager.getString(StringConstants.SOUND));
-
-        miAbout.setText(languageMGR.getString(StringConstants.ABOUT));
     }
 
     private class LanguageListener implements ActionListener {

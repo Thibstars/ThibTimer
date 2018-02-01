@@ -7,19 +7,27 @@
 package model;
 
 import constants.StringConstants;
-
-import java.util.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * This class manages the language throughout the entire application.
  *
  * @author Thibault Helsmoortel
  */
-public class LanguageManager extends Observable {
+public class LanguageManager {
 
     private static LanguageManager languageManager = new LanguageManager();
     private Locale locale;
     private HashMap<String, String> textMap;
+
+    private final List<PropertyChangeListener> propertyChangeListeners;
 
     /**
      * This constructor initialises the language that will be used in the entire application.
@@ -28,6 +36,7 @@ public class LanguageManager extends Observable {
      * All Strings will be loaded in a HashMap.
      */
     private LanguageManager() {
+        this.propertyChangeListeners = new ArrayList<>();
         String s = System.getProperty("user.language");
         switch (s) {
             case StringConstants.NL:
@@ -45,8 +54,16 @@ public class LanguageManager extends Observable {
         }
         textMap = new HashMap<>();
         setTextAccordingToLanguage();
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(new HashMap<>(), textMap);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeListeners.add(listener);
+    }
+
+    private void firePropertyChangeEvent(HashMap<String, String> oldMap, HashMap<String, String> newMap) {
+        PropertyChangeEvent event = new PropertyChangeEvent(this, "textMap", oldMap, newMap);
+        propertyChangeListeners.forEach(listener -> listener.propertyChange(event));
     }
 
     public static synchronized LanguageManager getInstance() {
@@ -60,10 +77,10 @@ public class LanguageManager extends Observable {
      * @param language the Locale of the language
      */
     public void setLanguage(Locale language) {
+        HashMap<String, String> oldMap = textMap;
         this.locale = language;
         setTextAccordingToLanguage();
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldMap, textMap);
     }
 
     /**
@@ -72,6 +89,8 @@ public class LanguageManager extends Observable {
      * updated according the language.
      */
     private void setTextAccordingToLanguage() {
+        HashMap<String, String> oldMap = textMap;
+
         //Get the bundle according the language and place it in the textMap
         ResourceBundle language = ResourceBundle.getBundle(StringConstants.LANGUAGE_BUNDLE_BASE_NAME, locale);
         Enumeration bundleKeys = language.getKeys();
@@ -81,8 +100,7 @@ public class LanguageManager extends Observable {
             String value = language.getString(key);
             textMap.put(key, value);
         }
-        setChanged();
-        notifyObservers();
+        firePropertyChangeEvent(oldMap, textMap);
     }
 
     /**

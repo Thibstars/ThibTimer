@@ -8,22 +8,35 @@ package view;
 
 import constants.StringConstants;
 import constants.ViewConstants;
-import model.*;
-import model.Timer;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.HeadlessException;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import model.LanguageManager;
+import model.Theme;
+import model.Timer;
+import model.TimerStateChrono;
+import model.TimerStateTimer;
 
 /**
  * This is the main view class of the application.
  *
  * @author Thibault Helsmoortel
  */
-public class MainFrame extends JFrame implements Observer {
+public class MainFrame extends JFrame {
+
     private static final Timer timer = Timer.getInstance();
 
     private LanguageManager languageManager = LanguageManager.getInstance();
@@ -195,8 +208,25 @@ public class MainFrame extends JFrame implements Observer {
             timer.setTimerToCurrentTime();
             timer.start();
         });
-        timer.addObserver(this);
-        languageManager.addObserver(this);
+        timer.addPropertyChangeEventListener(event -> {
+            if (event.getNewValue() instanceof javax.swing.Timer) {
+                tfTimer.setText(timer.toString());
+            }
+        });
+        languageManager.addPropertyChangeListener(event -> {
+            if (event.getNewValue() instanceof LanguageManager) {
+                //Language update
+                LanguageManager languageMGR = (LanguageManager) event.getNewValue();
+                btnSet.setText(languageMGR.getString(StringConstants.SET));
+                btnStart.setText(languageMGR.getString(StringConstants.START));
+                btnStop.setText(languageMGR.getString(StringConstants.STOP));
+                btnReset.setText(languageMGR.getString(StringConstants.RESET));
+                rbTimer.setText(languageMGR.getString(StringConstants.TIMER));
+                rbChrono.setText(languageMGR.getString(StringConstants.CHRONO));
+                rbWatch.setText(languageMGR.getString(StringConstants.WATCH));
+            }
+            pack();
+        });
     }
 
     private void showFrame() {
@@ -209,27 +239,6 @@ public class MainFrame extends JFrame implements Observer {
         ((Graphics2D) tfTimer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         btnStart.requestFocus();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof Timer) {
-            Timer thibTimer = (Timer) o;
-            tfTimer.setText(thibTimer.toString());
-        }
-
-        if (o instanceof LanguageManager) {
-            //Language update
-            LanguageManager languageMGR = (LanguageManager) o;
-            btnSet.setText(languageMGR.getString(StringConstants.SET));
-            btnStart.setText(languageMGR.getString(StringConstants.START));
-            btnStop.setText(languageMGR.getString(StringConstants.STOP));
-            btnReset.setText(languageMGR.getString(StringConstants.RESET));
-            rbTimer.setText(languageMGR.getString(StringConstants.TIMER));
-            rbChrono.setText(languageMGR.getString(StringConstants.CHRONO));
-            rbWatch.setText(languageMGR.getString(StringConstants.WATCH));
-        }
-        pack();
     }
 
     public void setTheme(Theme theme) {
