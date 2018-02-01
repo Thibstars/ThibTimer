@@ -3,10 +3,13 @@ package be.thibaulthelsmoortel.thibtimer.view;
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.constants.ViewConstants;
 import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
+import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import be.thibaulthelsmoortel.thibtimer.model.Theme;
 import be.thibaulthelsmoortel.thibtimer.model.Timer;
 import be.thibaulthelsmoortel.thibtimer.model.TimerStateChrono;
 import be.thibaulthelsmoortel.thibtimer.model.TimerStateTimer;
+import be.thibaulthelsmoortel.thibtimer.util.JsonFileWriter;
+import be.thibaulthelsmoortel.thibtimer.util.PreferenceReader;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -14,6 +17,11 @@ import java.awt.HeadlessException;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,6 +43,7 @@ public class MainFrame extends JFrame {
 
     private LanguageManager languageManager = LanguageManager.getInstance();
 
+    private Theme theme;
     private JPanel pnlDisplay;
     private JPanel pnlControl;
     private JPanel pnlTime;
@@ -51,8 +60,18 @@ public class MainFrame extends JFrame {
         super(StringConstants.APP_TITLE);
         createDisplayPanel();
         createControlPanel();
-        addListeners();
+        readPreferences();
         showFrame();
+        addListeners();
+    }
+
+    private void readPreferences() {
+        List<Preference> preferences = PreferenceReader.read();
+        preferences.forEach(preference -> {
+            if ("theme".equals(preference.getKey())) {
+                setTheme(Theme.valueOf(preference.getValue().toUpperCase()));
+            }
+        });
     }
 
     private void createDisplayPanel() {
@@ -209,7 +228,7 @@ public class MainFrame extends JFrame {
         });
         languageManager.addPropertyChangeListener(event -> {
             if (event.getNewValue() instanceof LanguageManager) {
-                //Language update
+                // Language update
                 LanguageManager languageMGR = (LanguageManager) event.getNewValue();
                 btnSet.setText(languageMGR.getString(StringConstants.SET));
                 btnStart.setText(languageMGR.getString(StringConstants.START));
@@ -220,6 +239,24 @@ public class MainFrame extends JFrame {
                 rbWatch.setText(languageMGR.getString(StringConstants.WATCH));
             }
             pack();
+        });
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                URL prefResources = this.getClass().getResource("/config/preferences.json");
+                List<Preference> preferences = new ArrayList<>();
+                Preference themePref = new Preference();
+                themePref.setKey(StringConstants.PREFERENCE_THEME);
+                themePref.setValue(theme.toString());
+                preferences.add(themePref);
+                Preference langPref = new Preference();
+                langPref.setKey(StringConstants.PREFERENCE_LANGUAGE);
+                langPref.setValue(languageManager.getLocale().getLanguage());
+                preferences.add(langPref);
+                JsonFileWriter.writeJsonToFile(prefResources.getPath(), preferences);
+
+                super.windowClosing(e);
+            }
         });
     }
 
@@ -236,6 +273,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setTheme(Theme theme) {
+        this.theme = theme;
         switch (theme) {
             case DARK:
                 pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR_DARK);

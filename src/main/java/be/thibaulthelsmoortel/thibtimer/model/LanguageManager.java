@@ -1,6 +1,7 @@
 package be.thibaulthelsmoortel.thibtimer.model;
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.util.PreferenceReader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -31,8 +32,16 @@ public class LanguageManager {
      */
     private LanguageManager() {
         this.propertyChangeListeners = new ArrayList<>();
-        String s = System.getProperty("user.language");
-        switch (s) {
+        Preference langPref = PreferenceReader.read().stream()
+                .filter(preference -> StringConstants.PREFERENCE_LANGUAGE.equals(preference.getKey()))
+                .findFirst().orElseGet(() -> {
+                    Preference defaultLang = new Preference();
+                    defaultLang.setKey(StringConstants.PREFERENCE_LANGUAGE);
+                    defaultLang.setValue(System.getProperty("user.language"));
+                    return defaultLang;
+                });
+        String lang = langPref.getValue();
+        switch (lang) {
             case StringConstants.NL:
                 locale = new Locale(StringConstants.NL);
 
@@ -105,6 +114,10 @@ public class LanguageManager {
      */
     public String getString(String stringToGet) {
         return textMap.get(stringToGet) != null ? textMap.get(stringToGet) : stringToGet;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
     @Override
