@@ -15,7 +15,8 @@ import java.awt.*;
  *
  * @author Thibault Helsmoortel
  */
-public abstract class ViewConstants {
+public final class ViewConstants {
+
     //MAINFRAME
     public static final Font TIMER_FONT = new Font("Helvetica", Font.PLAIN, 60);
     public static final GridLayout TIME_PANEL_LAYOUT = new GridLayout(1, 0, 1, 2);
@@ -47,4 +48,8 @@ public abstract class ViewConstants {
     public static final Dimension ABOUT_FRAME_DIMENSION = new Dimension(250, 125);
     public static final Font ABOUT_TEXT_FONT = new Font("Helvetica", Font.PLAIN, 16);
     public static final int ABOUT_TEXT_ROW_AMOUNT = 2;
+
+    private ViewConstants() {
+        // Prevent instantiation
+    }
 }

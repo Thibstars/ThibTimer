@@ -13,7 +13,7 @@ package constants;
  *
  * @author Thibault Helsmoortel
  */
-public abstract class StringConstants {
+public final class StringConstants {
 
     public static final String APP_TITLE = "ThibTimer";
 
@@ -44,4 +44,8 @@ public abstract class StringConstants {
     public static final String DUTCH = "Dutch";
     public static final String ENGLISH = "English";
     public static final String EN = "en";
+
+    public StringConstants() {
+        // Prevent instantiation
+    }
 }

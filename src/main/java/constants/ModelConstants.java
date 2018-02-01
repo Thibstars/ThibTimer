@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
  *
  * @author Thibault Helsmoortel
  */
-public abstract class ModelConstants {
+public final class ModelConstants {
 
     public static final DateFormat HOUR_FORMAT = new SimpleDateFormat("HH");
     public static final DateFormat MINUTE_FORMAT = new SimpleDateFormat("mm");
@@ -24,4 +24,8 @@ public abstract class ModelConstants {
     public static final int TIME_MAX = 59;
     public static final int TIME_NEXT_VALUE_AMOUNT = 60;
     public static final int TIME_DOUBLE_DIGIT_CHECK = 10;
+
+    private ModelConstants() {
+        // Prevent instantiation
+    }
 }
