@@ -42,7 +42,7 @@ public final class StringConstants {
     public static final String PREFERENCE_THEME = "theme";
     public static final String PREFERENCE_LANGUAGE = "language";
 
-    public StringConstants() {
+    private StringConstants() {
         // Prevent instantiation
     }
 }
