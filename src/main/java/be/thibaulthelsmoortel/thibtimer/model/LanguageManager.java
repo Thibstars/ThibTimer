@@ -1,7 +1,7 @@
 package be.thibaulthelsmoortel.thibtimer.model;
 
+import be.thibaulthelsmoortel.thibtimer.cache.PreferencesCache;
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
-import be.thibaulthelsmoortel.thibtimer.io.PreferenceReader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import org.apache.commons.lang3.StringUtils;
 
@@ -33,7 +34,8 @@ public class LanguageManager {
      */
     private LanguageManager() {
         this.propertyChangeListeners = new ArrayList<>();
-        Preference langPref = PreferenceReader.read().stream()
+        Preference langPref = PreferencesCache.getInstance().getPreferences().entrySet().stream()
+                .map(Entry::getValue)
                 .filter(preference -> StringConstants.PREFERENCE_LANGUAGE.equals(preference.getKey()))
                 .findFirst().orElseGet(() -> {
                     Preference defaultLang = new Preference();

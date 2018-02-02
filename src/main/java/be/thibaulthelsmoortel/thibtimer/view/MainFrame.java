@@ -1,9 +1,9 @@
 package be.thibaulthelsmoortel.thibtimer.view;
 
+import be.thibaulthelsmoortel.thibtimer.cache.PreferencesCache;
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.constants.ViewConstants;
 import be.thibaulthelsmoortel.thibtimer.io.JsonFileWriter;
-import be.thibaulthelsmoortel.thibtimer.io.PreferenceReader;
 import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import be.thibaulthelsmoortel.thibtimer.model.Theme;
@@ -22,6 +22,8 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -68,7 +70,8 @@ public class MainFrame extends JFrame {
     }
 
     private void readPreferences() {
-        List<Preference> preferences = PreferenceReader.read();
+        List<Preference> preferences = PreferencesCache.getInstance().getPreferences()
+                .entrySet().stream().map(Entry::getValue).collect(Collectors.toList());
         preferences.forEach(preference -> {
             if ("theme".equals(preference.getKey())) {
                 setTheme(Theme.valueOf(preference.getValue().toUpperCase()));
