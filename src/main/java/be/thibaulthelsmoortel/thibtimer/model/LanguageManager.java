@@ -1,7 +1,7 @@
 package be.thibaulthelsmoortel.thibtimer.model;
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
-import be.thibaulthelsmoortel.thibtimer.util.PreferenceReader;
+import be.thibaulthelsmoortel.thibtimer.io.PreferenceReader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;

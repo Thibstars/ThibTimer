@@ -1,4 +1,4 @@
-package be.thibaulthelsmoortel.thibtimer.util;
+package be.thibaulthelsmoortel.thibtimer.io;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

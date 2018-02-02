@@ -1,4 +1,4 @@
-package be.thibaulthelsmoortel.thibtimer.util;
+package be.thibaulthelsmoortel.thibtimer.io;
 
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import com.google.gson.GsonBuilder;

@@ -2,14 +2,14 @@ package be.thibaulthelsmoortel.thibtimer.view;
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.constants.ViewConstants;
+import be.thibaulthelsmoortel.thibtimer.io.JsonFileWriter;
+import be.thibaulthelsmoortel.thibtimer.io.PreferenceReader;
 import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import be.thibaulthelsmoortel.thibtimer.model.Theme;
 import be.thibaulthelsmoortel.thibtimer.model.Timer;
 import be.thibaulthelsmoortel.thibtimer.model.TimerStateChrono;
 import be.thibaulthelsmoortel.thibtimer.model.TimerStateTimer;
-import be.thibaulthelsmoortel.thibtimer.util.JsonFileWriter;
-import be.thibaulthelsmoortel.thibtimer.util.PreferenceReader;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
