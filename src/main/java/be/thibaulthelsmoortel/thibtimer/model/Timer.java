@@ -26,7 +26,8 @@ public class Timer {
     private static final Logger LOGGER = LogManager.getLogger(Timer.class);
 
     private static Timer timer = new Timer();
-    private TimeChanger timeChanger = new TimerStateWatch();
+    private TimerChangeStrategy timerChangeStrategy;
+    private TimeChanger timeChanger;
 
     private javax.swing.Timer swingTimer;
     private int seconds;
@@ -44,6 +45,7 @@ public class Timer {
         this.minutes = TIME_ZERO;
         this.hours = TIME_ZERO;
         this.propertyChangeListeners = new ArrayList<>();
+        setTimerChangeStrategy(TimerChangeStrategy.WATCH);
         setTimerToCurrentTime();
     }
 
@@ -182,12 +184,13 @@ public class Timer {
         swingTimer.stop();
     }
 
-    public TimeChanger getTimeChanger() {
-        return timeChanger;
+    public TimerChangeStrategy getTimerChangeStrategy() {
+        return timerChangeStrategy;
     }
 
-    public void setTimeChanger(TimeChanger timeChanger) {
-        this.timeChanger = timeChanger;
+    public void setTimerChangeStrategy(TimerChangeStrategy timerChangeStrategy) {
+        this.timerChangeStrategy = timerChangeStrategy;
+        this.timeChanger = TimeChangeFactory.getInstance().createTimeChanger(timerChangeStrategy);
     }
 
     @Override

@@ -20,7 +20,7 @@ public final class StringConstants {
     public static final String SOUND = "Sound";
 
     public static final String TIMER = "Timer";
-    public static final String CHRONO = "Chrono";
+    public static final String CHRONOMETER = "Chrono";
     public static final String WATCH = "Watch";
     public static final String SET = "Set";
     public static final String START = "Start";

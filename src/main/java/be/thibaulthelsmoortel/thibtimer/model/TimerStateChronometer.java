@@ -1,11 +1,11 @@
 package be.thibaulthelsmoortel.thibtimer.model;
 
 /**
- * Chrono timer state.
+ * Chronometer timer state.
  *
  * @author Thibault Helsmoortel
  */
-public class TimerStateChrono implements TimerState {
+public class TimerStateChronometer implements TimerState {
 
     @Override
     public void changeTime() {

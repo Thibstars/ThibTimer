@@ -8,8 +8,7 @@ import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import be.thibaulthelsmoortel.thibtimer.model.Theme;
 import be.thibaulthelsmoortel.thibtimer.model.Timer;
-import be.thibaulthelsmoortel.thibtimer.model.TimerStateChrono;
-import be.thibaulthelsmoortel.thibtimer.model.TimerStateTimer;
+import be.thibaulthelsmoortel.thibtimer.model.TimerChangeStrategy;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -156,7 +155,7 @@ public class MainFrame extends JFrame {
     private void resetTimerTypeItems() {
         cbTimerTypes.removeAllItems();
         cbTimerTypes.addItem(languageManager.getString(StringConstants.TIMER));
-        cbTimerTypes.addItem(languageManager.getString(StringConstants.CHRONO));
+        cbTimerTypes.addItem(languageManager.getString(StringConstants.CHRONOMETER));
         cbTimerTypes.addItem(languageManager.getString(StringConstants.WATCH));
         cbTimerTypes.setSelectedItem(languageManager.getString(StringConstants.WATCH));
     }
@@ -207,14 +206,14 @@ public class MainFrame extends JFrame {
             } else if (cbTimerTypes.getSelectedIndex() == INDEX_TIMER) {
                 timer.stop();
                 timer.reset();
-                timer.setTimeChanger(new TimerStateTimer());
+                timer.setTimerChangeStrategy(TimerChangeStrategy.TIMER);
                 btnSet.setEnabled(true);
                 btnStart.setEnabled(false);
             } else {
-                // Chrono
+                // Chronometer
                 timer.stop();
                 timer.reset();
-                timer.setTimeChanger(new TimerStateChrono());
+                timer.setTimerChangeStrategy(TimerChangeStrategy.CHRONOMETER);
                 btnSet.setEnabled(false);
                 btnStart.setEnabled(true);
                 btnStop.setEnabled(false);
@@ -316,7 +315,7 @@ public class MainFrame extends JFrame {
                 btnReset.setEnabled(true);
             } else if (e.getSource() == btnReset) {
                 timer.stop();
-                if (timer.getTimeChanger() instanceof TimerStateTimer)
+                if (TimerChangeStrategy.TIMER.equals(timer.getTimerChangeStrategy()))
                     timer.setTimerTime((Integer) spHours.getValue(), (Integer) spMinutes.getValue(), (Integer) spSeconds.getValue());
                 else timer.reset();
                 btnStart.setEnabled(true);
