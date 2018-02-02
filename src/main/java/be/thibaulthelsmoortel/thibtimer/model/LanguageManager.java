@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class manages the language throughout the entire application.
@@ -40,7 +41,7 @@ public class LanguageManager {
                     defaultLang.setValue(System.getProperty("user.language"));
                     return defaultLang;
                 });
-        String lang = langPref.getValue();
+        String lang = StringUtils.isNotBlank(langPref.getValue()) ? langPref.getValue() : System.getProperty("user.language");
         switch (lang) {
             case StringConstants.NL:
                 locale = new Locale(StringConstants.NL);
