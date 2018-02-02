@@ -1,5 +1,10 @@
-package be.thibaulthelsmoortel.thibtimer.model;
+package be.thibaulthelsmoortel.thibtimer.factories;
 
+import be.thibaulthelsmoortel.thibtimer.model.TimeChanger;
+import be.thibaulthelsmoortel.thibtimer.model.TimerChangeStrategy;
+import be.thibaulthelsmoortel.thibtimer.model.TimerStateChronometer;
+import be.thibaulthelsmoortel.thibtimer.model.TimerStateTimer;
+import be.thibaulthelsmoortel.thibtimer.model.TimerStateWatch;
 import java.util.EnumMap;
 
 /**

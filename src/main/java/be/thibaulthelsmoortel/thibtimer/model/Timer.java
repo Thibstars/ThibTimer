@@ -8,6 +8,7 @@ import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_DOU
 import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_ZERO;
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
+import be.thibaulthelsmoortel.thibtimer.factories.TimeChangeFactory;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
