@@ -28,7 +28,7 @@ public final class ViewConstants {
     public static final Color SET_SPINNERS_BG_COLOR_THEME_LIGHT = Color.LIGHT_GRAY;
     public static final Color DISPLAY_PANEL_BG_COLOR_DARK = Color.DARK_GRAY;
     public static final Color DISPLAY_PANEL_BG_COLOR_LIGHT = Color.LIGHT_GRAY;
-    public static final GridLayout RADIO_BUTTONS_PANEL_LAYOUT = new GridLayout(0, 1);
+    public static final GridLayout TIMER_TYPES_PANEL_LAYOUT = new GridLayout(0, 1);
     public static final Color RADIO_BUTTONS_PANEL_BG_COLOR_DARK = Color.GRAY;
     public static final Color RADIO_BUTTONS_PANEL_BG_COLOR_LIGHT = Color.LIGHT_GRAY;
     public static final GridLayout BUTTONS_PANEL_LAYOUT = new GridLayout(1, 0, 3, 3);

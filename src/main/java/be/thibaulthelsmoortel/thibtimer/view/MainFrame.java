@@ -22,12 +22,11 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -49,12 +48,15 @@ public class MainFrame extends JFrame {
     private JPanel pnlTime;
     private JPanel pnlSetTime;
     private JPanel pnlButtons;
-    private JPanel pnlRadioButtons;
+    private JPanel pnlTimerTypes;
     private JTextField tfTimer;
     private JSpinner spHours, spMinutes, spSeconds;
     private JButton btnSet, btnStart, btnStop, btnReset;
-    private JRadioButton rbTimer, rbChrono, rbWatch;
-    private ButtonGroup btnGroup;
+    private JComboBox<String> cbTimerTypes;
+
+    private static final int INDEX_TIMER = 0;
+    private static final int INDEX_CHRONO = 1;
+    private static final int INDEX_WATCH = 2;
 
     public MainFrame() throws HeadlessException {
         super(StringConstants.APP_TITLE);
@@ -118,21 +120,11 @@ public class MainFrame extends JFrame {
     }
 
     private void createControlPanel() {
-        rbTimer = new JRadioButton(languageManager.getString(StringConstants.TIMER));
-        rbChrono = new JRadioButton(languageManager.getString(StringConstants.CHRONO));
-        rbWatch = new JRadioButton(languageManager.getString(StringConstants.WATCH));
-        btnGroup = new ButtonGroup();
-        btnGroup.add(rbTimer);
-        btnGroup.add(rbChrono);
-        btnGroup.add(rbWatch);
-        rbTimer.setSelected(false);
-        rbChrono.setSelected(false);
-        rbWatch.setSelected(true);
+        cbTimerTypes = new JComboBox<>();
+        resetTimerTypeItems();
 
-        pnlRadioButtons = new JPanel(ViewConstants.RADIO_BUTTONS_PANEL_LAYOUT);
-        pnlRadioButtons.add(rbTimer);
-        pnlRadioButtons.add(rbChrono);
-        pnlRadioButtons.add(rbWatch);
+        pnlTimerTypes = new JPanel(ViewConstants.TIMER_TYPES_PANEL_LAYOUT);
+        pnlTimerTypes.add(cbTimerTypes);
 
         pnlButtons = new JPanel(ViewConstants.BUTTONS_PANEL_LAYOUT);
         btnSet = new JButton(languageManager.getString(StringConstants.SET));
@@ -148,7 +140,7 @@ public class MainFrame extends JFrame {
         pnlButtons.add(btnStart);
         pnlButtons.add(btnStop);
         pnlButtons.add(btnReset);
-        pnlButtons.add(pnlRadioButtons);
+        pnlButtons.add(pnlTimerTypes);
 
         pnlControl = new JPanel();
         pnlControl.add(pnlButtons);
@@ -158,11 +150,20 @@ public class MainFrame extends JFrame {
         add(pnlControl, BorderLayout.SOUTH);
     }
 
+    private void resetTimerTypeItems() {
+        cbTimerTypes.removeAllItems();
+        cbTimerTypes.addItem(languageManager.getString(StringConstants.TIMER));
+        cbTimerTypes.addItem(languageManager.getString(StringConstants.CHRONO));
+        cbTimerTypes.addItem(languageManager.getString(StringConstants.WATCH));
+        cbTimerTypes.setSelectedItem(languageManager.getString(StringConstants.WATCH));
+    }
+
     private void addListeners() {
         btnSet.addActionListener(e -> {
             timer.setHours((Integer) spHours.getValue());
             timer.setMinutes((Integer) spMinutes.getValue());
             timer.setSeconds((Integer) spSeconds.getValue());
+            cbTimerTypes.setEnabled(false);
             if (pnlSetTime.isVisible()) {
                 pnlSetTime.setVisible(false);
                 pnlTime.setVisible(true);
@@ -171,10 +172,7 @@ public class MainFrame extends JFrame {
                 btnStop.setVisible(true);
                 btnReset.setVisible(true);
                 btnStart.setEnabled(true);
-                rbTimer.setVisible(true);
-                rbChrono.setVisible(true);
-                rbWatch.setVisible(true);
-                if (rbTimer.isSelected() && (Integer) spHours.getValue() == 0 && (Integer) spMinutes.getValue() == 0 && (Integer) spSeconds.getValue() == 0)
+                if (cbTimerTypes.getSelectedIndex() == INDEX_TIMER && (Integer) spHours.getValue() == 0 && (Integer) spMinutes.getValue() == 0 && (Integer) spSeconds.getValue() == 0)
                     btnStart.setEnabled(false);
             } else {
                 timer.stop();
@@ -187,39 +185,38 @@ public class MainFrame extends JFrame {
                 btnStart.setEnabled(false);
                 btnStop.setEnabled(false);
                 btnReset.setEnabled(false);
-                rbTimer.setVisible(false);
-                rbChrono.setVisible(false);
-                rbWatch.setVisible(false);
             }
+            cbTimerTypes.setEnabled(true);
             pack();
         });
         btnStart.addActionListener(new TimerActionListener());
         btnStop.addActionListener(new TimerActionListener());
         btnReset.addActionListener(new TimerActionListener());
-        rbTimer.addActionListener(e -> {
-            timer.stop();
-            timer.reset();
-            timer.setTimeChanger(new TimerStateTimer());
-            btnSet.setEnabled(true);
-            btnStart.setEnabled(false);
-        });
-        rbChrono.addActionListener(e -> {
-            timer.stop();
-            timer.reset();
-            timer.setTimeChanger(new TimerStateChrono());
-            btnSet.setEnabled(false);
-            btnStart.setEnabled(true);
-            btnStop.setEnabled(false);
-            btnReset.setEnabled(false);
-        });
-        rbWatch.addActionListener(e -> {
-            timer.stop();
-            btnSet.setEnabled(false);
-            btnStart.setEnabled(false);
-            btnStop.setEnabled(false);
-            btnReset.setEnabled(false);
-            timer.setTimerToCurrentTime();
-            timer.start();
+        cbTimerTypes.addActionListener(e -> {
+            if (cbTimerTypes.getSelectedIndex() == INDEX_WATCH) {
+                timer.stop();
+                btnSet.setEnabled(false);
+                btnStart.setEnabled(false);
+                btnStop.setEnabled(false);
+                btnReset.setEnabled(false);
+                timer.setTimerToCurrentTime();
+                timer.start();
+            } else if (cbTimerTypes.getSelectedIndex() == INDEX_TIMER) {
+                timer.stop();
+                timer.reset();
+                timer.setTimeChanger(new TimerStateTimer());
+                btnSet.setEnabled(true);
+                btnStart.setEnabled(false);
+            } else {
+                // Chrono
+                timer.stop();
+                timer.reset();
+                timer.setTimeChanger(new TimerStateChrono());
+                btnSet.setEnabled(false);
+                btnStart.setEnabled(true);
+                btnStop.setEnabled(false);
+                btnReset.setEnabled(false);
+            }
         });
         timer.addPropertyChangeEventListener(event -> {
             if (event.getNewValue() instanceof javax.swing.Timer) {
@@ -234,9 +231,7 @@ public class MainFrame extends JFrame {
                 btnStart.setText(languageMGR.getString(StringConstants.START));
                 btnStop.setText(languageMGR.getString(StringConstants.STOP));
                 btnReset.setText(languageMGR.getString(StringConstants.RESET));
-                rbTimer.setText(languageMGR.getString(StringConstants.TIMER));
-                rbChrono.setText(languageMGR.getString(StringConstants.CHRONO));
-                rbWatch.setText(languageMGR.getString(StringConstants.WATCH));
+                resetTimerTypeItems();
             }
             pack();
         });
@@ -277,7 +272,7 @@ public class MainFrame extends JFrame {
         switch (theme) {
             case DARK:
                 pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR_DARK);
-                pnlRadioButtons.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_DARK);
+                pnlTimerTypes.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_DARK);
                 tfTimer.setBackground(ViewConstants.TIMER_BG_COLOR_THEME_DARK);
                 tfTimer.setForeground(ViewConstants.TIMER_FG_COLOR_THEME_DARK);
                 spHours.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_DARK);
@@ -288,7 +283,7 @@ public class MainFrame extends JFrame {
                 break;
             case LIGHT:
                 pnlDisplay.setBackground(ViewConstants.DISPLAY_PANEL_BG_COLOR_LIGHT);
-                pnlRadioButtons.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_LIGHT);
+                pnlTimerTypes.setBackground(ViewConstants.RADIO_BUTTONS_PANEL_BG_COLOR_LIGHT);
                 tfTimer.setBackground(ViewConstants.TIMER_BG_COLOR_THEME_LIGHT);
                 tfTimer.setForeground(ViewConstants.TIMER_FG_COLOR_THEME_LIGHT);
                 spHours.setBackground(ViewConstants.SET_SPINNERS_BG_COLOR_THEME_LIGHT);
@@ -309,8 +304,8 @@ public class MainFrame extends JFrame {
                 btnStart.setEnabled(false);
                 btnStop.setEnabled(true);
                 btnReset.setEnabled(false);
-                if (rbWatch.isSelected()) timer.setTimerToCurrentTime();
-                if (rbChrono.isSelected()) btnReset.setEnabled(true);
+                if (cbTimerTypes.getSelectedIndex() == INDEX_WATCH) timer.setTimerToCurrentTime();
+                if (cbTimerTypes.getSelectedIndex() == INDEX_CHRONO) btnReset.setEnabled(true);
             } else if (e.getSource() == btnStop) {
                 timer.stop();
                 btnStart.setEnabled(true);
