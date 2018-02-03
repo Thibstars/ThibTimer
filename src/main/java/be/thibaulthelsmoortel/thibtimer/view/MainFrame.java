@@ -226,15 +226,11 @@ public class MainFrame extends JFrame {
             }
         });
         languageManager.addPropertyChangeListener(event -> {
-            if (event.getNewValue() instanceof LanguageManager) {
-                // Language update
-                LanguageManager languageMGR = (LanguageManager) event.getNewValue();
-                btnSet.setText(languageMGR.getString(StringConstants.SET));
-                btnStart.setText(languageMGR.getString(StringConstants.START));
-                btnStop.setText(languageMGR.getString(StringConstants.STOP));
-                btnReset.setText(languageMGR.getString(StringConstants.RESET));
-                resetTimerTypeItems();
-            }
+            btnSet.setText(languageManager.getString(StringConstants.SET));
+            btnStart.setText(languageManager.getString(StringConstants.START));
+            btnStop.setText(languageManager.getString(StringConstants.STOP));
+            btnReset.setText(languageManager.getString(StringConstants.RESET));
+            resetTimerTypeItems();
             pack();
         });
         this.addWindowListener(new WindowAdapter() {
