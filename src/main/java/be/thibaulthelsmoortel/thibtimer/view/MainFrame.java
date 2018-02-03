@@ -256,13 +256,13 @@ public class MainFrame extends JFrame {
     private void showFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
-        pack();
         setLocationRelativeTo(null);
         setResizable(false);
 
         ((Graphics2D) tfTimer.getGraphics()).setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         btnStart.requestFocus();
+        pack();
     }
 
     public void setTheme(Theme theme) {
