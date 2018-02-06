@@ -22,6 +22,9 @@ public interface TimerState extends TimeChanger {
                 minutes = ModelConstants.TIME_ZERO;
                 hours++;
             }
+            if (hours >= ModelConstants.TIME_NEXT_VALUE_HOURS_AMOUNT) {
+                hours = ModelConstants.TIME_ZERO;
+            }
         }
         timer.setTimerTime(hours, minutes, seconds);
     }

@@ -17,6 +17,7 @@ public final class ModelConstants {
     public static final int TIME_ZERO = 0;
     public static final int TIME_MAX = 59;
     public static final int TIME_NEXT_VALUE_AMOUNT = 60;
+    public static final int TIME_NEXT_VALUE_HOURS_AMOUNT = 24;
     public static final int TIME_DOUBLE_DIGIT_CHECK = 10;
 
     private ModelConstants() {
