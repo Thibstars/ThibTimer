@@ -9,6 +9,10 @@ import be.thibaulthelsmoortel.thibtimer.constants.ModelConstants;
  */
 public interface TimerState extends TimeChanger {
 
+    default void updateCurrentTime() {
+        Timer.getInstance().setTimerToCurrentTime();
+    }
+
     default void incrementTime() {
         Timer timer = Timer.getInstance();
         int hours = timer.getHours();

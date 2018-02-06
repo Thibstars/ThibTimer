@@ -47,6 +47,7 @@ public class Timer {
         this.hours = TIME_ZERO;
         this.propertyChangeListeners = new ArrayList<>();
         setTimerChangeStrategy(TimerChangeStrategy.WATCH);
+        initialiseTimer();
         setTimerToCurrentTime();
     }
 
@@ -63,14 +64,12 @@ public class Timer {
      * This is because the timer is first set to the current time, and afterwards initialised
      */
     public void setTimerToCurrentTime() {
-        javax.swing.Timer oldTimer = swingTimer;
-        initialiseTimer();
         Calendar calendar = Calendar.getInstance();
         hours = Integer.parseInt(HOUR_FORMAT.format(calendar.getTime()));
         minutes = Integer.parseInt(MINUTE_FORMAT.format(calendar.getTime()));
         seconds = Integer.parseInt(SECOND_FORMAT.format(calendar.getTime()));
-        LOGGER.debug(String.format("Set the current time to: %02d:%02d:%02d", hours, minutes, seconds));
-        firePropertyChangeEvent(oldTimer, swingTimer);
+        setTimerTime(hours, minutes, seconds);
+        LOGGER.trace(String.format("Set the current time to: %02d:%02d:%02d", hours, minutes, seconds));
     }
 
     public void addPropertyChangeEventListener(PropertyChangeListener listener) {
@@ -83,7 +82,7 @@ public class Timer {
     }
 
     /**
-     * This method initialises the timer and fires the increment() or decrement() depending on the situation.
+     * This method initialises the timer and fires the changeTime method.
      */
     private void initialiseTimer() {
         swingTimer = new javax.swing.Timer(SECONDS_IN_MILLIS, e -> changeTime());
@@ -145,7 +144,7 @@ public class Timer {
     }
 
     /**
-     * This method stops the timer and sets the desired values for seconds, minutes and hours
+     * This method sets the desired values for seconds, minutes and hours
      *
      * @param hourVal   The value to set hours to
      * @param minuteVal The value to set minutes to

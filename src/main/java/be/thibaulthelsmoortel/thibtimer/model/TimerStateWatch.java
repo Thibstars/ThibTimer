@@ -9,6 +9,6 @@ public class TimerStateWatch implements TimerState {
 
     @Override
     public void changeTime() {
-        incrementTime();
+        updateCurrentTime();
     }
 }
