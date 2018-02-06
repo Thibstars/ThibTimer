@@ -42,7 +42,10 @@ public interface TimerState extends TimeChanger {
             minutes--;
             seconds = ModelConstants.TIME_MAX;
         } else if (seconds > ModelConstants.TIME_ZERO) seconds--;
-        else if (seconds <= ModelConstants.TIME_ZERO) timer.stop();
+        else {
+            // time's up, stop timer
+            timer.stop();
+        }
 
         timer.setTimerTime(hours, minutes, seconds);
     }
