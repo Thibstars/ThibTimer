@@ -26,7 +26,7 @@ public final class JsonFileWriter {
         synchronized (LOCKER_OBJ) {
             LOGGER.info("Trying to write an object as json to: {}.", destinationPath);
             GsonBuilder gsonBuilder = new GsonBuilder();
-            try (FileWriter writer = new FileWriter(new File(JsonFileWriter.class.getResource(destinationPath).getFile()))) {
+            try (FileWriter writer = new FileWriter(destinationPath)) {
                 Gson gson = gsonBuilder.create();
                 gson.toJson(object, writer);
             } catch (IOException e) {
