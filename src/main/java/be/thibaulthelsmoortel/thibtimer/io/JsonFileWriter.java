@@ -2,6 +2,8 @@ package be.thibaulthelsmoortel.thibtimer.io;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +26,7 @@ public final class JsonFileWriter {
         synchronized (LOCKER_OBJ) {
             LOGGER.info("Trying to write an object as json to: {}.", destinationPath);
             GsonBuilder gsonBuilder = new GsonBuilder();
-            try (FileWriter writer = new FileWriter(destinationPath)) {
+            try (FileWriter writer = new FileWriter(new File(JsonFileWriter.class.getResource(destinationPath).getFile()))) {
                 Gson gson = gsonBuilder.create();
                 gson.toJson(object, writer);
             } catch (IOException e) {
