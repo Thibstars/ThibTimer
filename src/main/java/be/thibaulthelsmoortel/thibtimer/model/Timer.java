@@ -7,7 +7,6 @@ import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.SECOND_F
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.factories.TimeChangeFactory;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -98,10 +97,6 @@ public class Timer {
 
     public Time getTime() {
         return time;
-    }
-
-    public void addTimerListener(ActionListener listener) {
-        swingTimer.addActionListener(listener);
     }
 
     /**
