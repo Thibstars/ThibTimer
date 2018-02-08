@@ -7,6 +7,7 @@ import be.thibaulthelsmoortel.thibtimer.io.JsonFileWriter;
 import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
 import be.thibaulthelsmoortel.thibtimer.model.Theme;
+import be.thibaulthelsmoortel.thibtimer.model.Time;
 import be.thibaulthelsmoortel.thibtimer.model.Timer;
 import be.thibaulthelsmoortel.thibtimer.model.TimerChangeStrategy;
 import java.awt.BorderLayout;
@@ -162,9 +163,9 @@ public class MainFrame extends JFrame {
 
     private void addListeners() {
         btnSet.addActionListener(e -> {
-            timer.setHours((Integer) spHours.getValue());
-            timer.setMinutes((Integer) spMinutes.getValue());
-            timer.setSeconds((Integer) spSeconds.getValue());
+            timer.getTime().setHours((Integer) spHours.getValue());
+            timer.getTime().setMinutes((Integer) spMinutes.getValue());
+            timer.getTime().setSeconds((Integer) spSeconds.getValue());
             cbTimerTypes.setEnabled(false);
             if (pnlSetTime.isVisible()) {
                 pnlSetTime.setVisible(false);
@@ -311,9 +312,14 @@ public class MainFrame extends JFrame {
                 btnReset.setEnabled(true);
             } else if (e.getSource() == btnReset) {
                 timer.stop();
-                if (TimerChangeStrategy.TIMER.equals(timer.getTimerChangeStrategy()))
-                    timer.setTimerTime((Integer) spHours.getValue(), (Integer) spMinutes.getValue(), (Integer) spSeconds.getValue());
-                else timer.reset();
+                if (TimerChangeStrategy.TIMER.equals(timer.getTimerChangeStrategy())) {
+                    Time time = timer.getTime();
+                    time.setHours((Integer) spHours.getValue());
+                    time.setMinutes((Integer) spMinutes.getValue());
+                    time.setSeconds((Integer) spSeconds.getValue());
+                } else {
+                    timer.reset();
+                }
                 btnStart.setEnabled(true);
                 btnStop.setEnabled(false);
                 btnReset.setEnabled(false);

@@ -15,9 +15,10 @@ public interface TimerState extends TimeChanger {
 
     default void incrementTime() {
         Timer timer = Timer.getInstance();
-        int hours = timer.getHours();
-        int minutes = timer.getMinutes();
-        int seconds = timer.getSeconds();
+        Time time = timer.getTime();
+        int hours = time.getHours();
+        int minutes = time.getMinutes();
+        int seconds = time.getSeconds();
         seconds++;
         if (seconds >= ModelConstants.TIME_NEXT_VALUE_AMOUNT) {
             seconds = ModelConstants.TIME_ZERO;
@@ -30,14 +31,18 @@ public interface TimerState extends TimeChanger {
                 hours = ModelConstants.TIME_ZERO;
             }
         }
-        timer.setTimerTime(hours, minutes, seconds);
+        time.setHours(hours);
+        time.setMinutes(minutes);
+        time.setSeconds(seconds);
+        timer.setTime(time);
     }
 
     default void decrementTime() {
         Timer timer = Timer.getInstance();
-        int hours = timer.getHours();
-        int minutes = timer.getMinutes();
-        int seconds = timer.getSeconds();
+        Time time = timer.getTime();
+        int hours = time.getHours();
+        int minutes = time.getMinutes();
+        int seconds = time.getSeconds();
         if (hours > ModelConstants.TIME_ZERO && minutes == ModelConstants.TIME_ZERO && seconds == ModelConstants.TIME_ZERO) {
             hours--;
             minutes = ModelConstants.TIME_MAX;
@@ -51,6 +56,9 @@ public interface TimerState extends TimeChanger {
             timer.stop();
         }
 
-        timer.setTimerTime(hours, minutes, seconds);
+        time.setHours(hours);
+        time.setMinutes(minutes);
+        time.setSeconds(seconds);
+        timer.setTime(time);
     }
 }

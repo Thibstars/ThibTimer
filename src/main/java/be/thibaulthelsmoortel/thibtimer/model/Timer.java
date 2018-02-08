@@ -4,11 +4,10 @@ import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.HOUR_FOR
 import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.MINUTE_FORMAT;
 import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.SECONDS_IN_MILLIS;
 import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.SECOND_FORMAT;
-import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_DOUBLE_DIGIT_CHECK;
-import static be.thibaulthelsmoortel.thibtimer.constants.ModelConstants.TIME_ZERO;
 
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.factories.TimeChangeFactory;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -31,9 +30,7 @@ public class Timer {
     private TimeChanger timeChanger;
 
     private javax.swing.Timer swingTimer;
-    private int seconds;
-    private int minutes;
-    private int hours;
+    private Time time;
 
     private final List<PropertyChangeListener> propertyChangeListeners;
 
@@ -42,9 +39,7 @@ public class Timer {
      * Creates a timer and initialises it to start from the current system's time
      */
     private Timer() {
-        this.seconds = TIME_ZERO;
-        this.minutes = TIME_ZERO;
-        this.hours = TIME_ZERO;
+        this.time = new Time();
         this.propertyChangeListeners = new ArrayList<>();
         setTimerChangeStrategy(TimerChangeStrategy.WATCH);
         initialiseTimer();
@@ -65,11 +60,11 @@ public class Timer {
      */
     public void setTimerToCurrentTime() {
         Calendar calendar = Calendar.getInstance();
-        hours = Integer.parseInt(HOUR_FORMAT.format(calendar.getTime()));
-        minutes = Integer.parseInt(MINUTE_FORMAT.format(calendar.getTime()));
-        seconds = Integer.parseInt(SECOND_FORMAT.format(calendar.getTime()));
-        setTimerTime(hours, minutes, seconds);
-        LOGGER.trace(String.format("Set the current time to: %02d:%02d:%02d", hours, minutes, seconds));
+        time.setHours(Integer.parseInt(HOUR_FORMAT.format(calendar.getTime())));
+        time.setMinutes(Integer.parseInt(MINUTE_FORMAT.format(calendar.getTime())));
+        time.setSeconds(Integer.parseInt(SECOND_FORMAT.format(calendar.getTime())));
+        setTime(time);
+        LOGGER.trace(String.format("Set the current time to: %02d:%02d:%02d", time.getHours(), time.getMinutes(), time.getSeconds()));
     }
 
     public void addPropertyChangeEventListener(PropertyChangeListener listener) {
@@ -95,67 +90,18 @@ public class Timer {
         firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
-    public int getSeconds() {
-        return seconds;
-    }
-
-    public void setSeconds(int seconds) {
+    public void setTime(Time time) {
         javax.swing.Timer oldTimer = swingTimer;
-        this.seconds = seconds;
+        this.time = time;
         firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
-    public int getMinutes() {
-        return minutes;
+    public Time getTime() {
+        return time;
     }
 
-    public void setMinutes(int minutes) {
-        javax.swing.Timer oldTimer = swingTimer;
-        this.minutes = minutes;
-        firePropertyChangeEvent(oldTimer, swingTimer);
-    }
-
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        javax.swing.Timer oldTimer = swingTimer;
-        this.hours = hours;
-        firePropertyChangeEvent(oldTimer, swingTimer);
-    }
-
-    private String getHourString() {
-        String hourString = Integer.toString(this.hours);
-        if (this.hours < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + hours;
-        return hourString;
-    }
-
-    private String getMinuteString() {
-        String minuteString = Integer.toString(this.minutes);
-        if (this.minutes < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + minutes;
-        return minuteString;
-    }
-
-    private String getSecondString() {
-        String secondString = Integer.toString(this.seconds);
-        if (this.seconds < TIME_DOUBLE_DIGIT_CHECK) return "" + TIME_ZERO + seconds;
-        return secondString;
-    }
-
-    /**
-     * This method sets the desired values for seconds, minutes and hours
-     *
-     * @param hourVal   The value to set hours to
-     * @param minuteVal The value to set minutes to
-     * @param secondVal The value to set seconds to
-     */
-    public void setTimerTime(int hourVal, int minuteVal, int secondVal) {
-        javax.swing.Timer oldTimer = swingTimer;
-        hours = hourVal;
-        minutes = minuteVal;
-        seconds = secondVal;
-        firePropertyChangeEvent(oldTimer, swingTimer);
+    public void addTimerListener(ActionListener listener) {
+        swingTimer.addActionListener(listener);
     }
 
     /**
@@ -164,9 +110,7 @@ public class Timer {
     public void reset() {
         javax.swing.Timer oldTimer = swingTimer;
         swingTimer.stop();
-        hours = TIME_ZERO;
-        minutes = TIME_ZERO;
-        seconds = TIME_ZERO;
+        time.reset();
         firePropertyChangeEvent(oldTimer, swingTimer);
     }
 
@@ -195,7 +139,7 @@ public class Timer {
 
     @Override
     public String toString() {
-        return getHourString() + StringConstants.TIMER_EXTENDED_DELIMITER + getMinuteString() + StringConstants.TIMER_EXTENDED_DELIMITER + getSecondString();
+        return time.getHourString() + StringConstants.TIMER_EXTENDED_DELIMITER + time.getMinuteString() + StringConstants.TIMER_EXTENDED_DELIMITER + time.getSecondString();
     }
 
     /**
