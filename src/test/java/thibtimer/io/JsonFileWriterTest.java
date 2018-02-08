@@ -1,16 +1,16 @@
 package thibtimer.io;
 
+import static org.junit.Assert.assertTrue;
+
 import be.thibaulthelsmoortel.thibtimer.constants.StringConstants;
 import be.thibaulthelsmoortel.thibtimer.io.JsonFileWriter;
 import be.thibaulthelsmoortel.thibtimer.model.LanguageManager;
 import be.thibaulthelsmoortel.thibtimer.model.Preference;
-import org.junit.Test;
-
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 /**
  * @author Thibault Helsmoortel
@@ -23,11 +23,12 @@ public class JsonFileWriterTest {
     @Test
     public void shouldWriteJsonToFile() throws Exception {
         String newFilePath = "/test/testFile.json";
+        URL resource = this.getClass().getResource(newFilePath);
         List<Preference> preferences = mockPreferences();
 
-        JsonFileWriter.writeJsonToFile(newFilePath, preferences);
+        JsonFileWriter.writeJsonToFile(resource.getPath(), preferences);
 
-        File createdFile = new File(this.getClass().getResource(newFilePath).getFile());
+        File createdFile = new File(resource.getFile());
         assertTrue("File should exist.", createdFile.exists());
         assertTrue("File should not be a directory.", !createdFile.isDirectory());
         assertTrue("File should not be empty.", createdFile.length() > 0);
